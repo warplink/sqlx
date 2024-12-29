@@ -41,7 +41,7 @@ pub(crate) use sqlx_core::type_info::TypeInfo;
 /// To compare types for exact equality, use [`Self::type_eq()`] instead.
 #[derive(Debug, Clone, PartialEq)]
 #[cfg_attr(feature = "offline", derive(serde::Serialize, serde::Deserialize))]
-pub struct PgTypeInfo(pub(crate) PgType);
+pub struct PgTypeInfo(pub PgType);
 
 impl Deref for PgTypeInfo {
     type Target = PgType;
@@ -194,7 +194,7 @@ pub struct PgArrayOf {
 
 impl PgTypeInfo {
     /// Returns the corresponding `PgTypeInfo` if the OID is a built-in type and recognized by SQLx.
-    pub(crate) fn try_from_oid(oid: Oid) -> Option<Self> {
+    pub fn try_from_oid(oid: Oid) -> Option<Self> {
         PgType::try_from_oid(oid).map(Self)
     }
 
@@ -454,7 +454,7 @@ impl PgType {
         })
     }
 
-    pub(crate) fn oid(&self) -> Oid {
+    pub fn oid(&self) -> Oid {
         match self.try_oid() {
             Some(oid) => oid,
             None => unreachable!("(bug) use of unresolved type declaration [oid]"),
@@ -770,7 +770,7 @@ impl PgType {
         }
     }
 
-    pub(crate) fn kind(&self) -> &PgTypeKind {
+    pub fn kind(&self) -> &PgTypeKind {
         match self {
             PgType::Bool => &PgTypeKind::Simple,
             PgType::Bytea => &PgTypeKind::Simple,
@@ -884,7 +884,7 @@ impl PgType {
     }
 
     /// If `self` is an array type, return the type info for its element.
-    pub(crate) fn try_array_element(&self) -> Option<Cow<'_, PgTypeInfo>> {
+    pub fn try_array_element(&self) -> Option<Cow<'_, PgTypeInfo>> {
         // We explicitly match on all the `None` cases to ensure an exhaustive match.
         match self {
             PgType::Bool => None,

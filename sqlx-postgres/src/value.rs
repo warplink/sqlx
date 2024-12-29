@@ -15,10 +15,10 @@ pub enum PgValueFormat {
 /// Implementation of [`ValueRef`] for PostgreSQL.
 #[derive(Clone)]
 pub struct PgValueRef<'r> {
-    pub(crate) value: Option<&'r [u8]>,
-    pub(crate) row: Option<&'r Bytes>,
-    pub(crate) type_info: PgTypeInfo,
-    pub(crate) format: PgValueFormat,
+    pub value: Option<&'r [u8]>,
+    pub row: Option<&'r Bytes>,
+    pub type_info: PgTypeInfo,
+    pub format: PgValueFormat,
 }
 
 /// Implementation of [`Value`] for PostgreSQL.
@@ -30,7 +30,7 @@ pub struct PgValue {
 }
 
 impl<'r> PgValueRef<'r> {
-    pub(crate) fn get(
+    pub fn get(
         buf: &mut &'r [u8],
         format: PgValueFormat,
         ty: PgTypeInfo,
